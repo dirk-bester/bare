@@ -22,7 +22,7 @@ export enum LANGUAGES {
 	PYTHON = 'Python',
 	RUST = 'Rust',
 	SWIFT = 'Swift',
-	TYPESCRIPT = 'Typescript'
+	TYPESCRIPT = 'Typescript',
 }
 
 // Javascript is the shittiest of the shit languages? You decide.
@@ -39,14 +39,14 @@ export const SOUNDS = {
 	WRONG_LETTER: 'WRONG_LETTER',
 	PASSED_GOALS: 'PASSED_GOALS',
 	FAILED_GOALS: 'FAILED_GOALS',
-	LESSONS_DONE: 'LESSONS_DONE'
+	LESSONS_DONE: 'LESSONS_DONE',
 };
 export const SOUND_NAMES = [
 	{ key: SOUNDS.RIGHT_LETTER, value: 'Right Letter' },
 	{ key: SOUNDS.WRONG_LETTER, value: 'Wrong Letter' },
 	{ key: SOUNDS.PASSED_GOALS, value: 'Passed Goals' },
 	{ key: SOUNDS.FAILED_GOALS, value: 'Failed Goals' },
-	{ key: SOUNDS.LESSONS_DONE, value: 'Lessons Done' }
+	{ key: SOUNDS.LESSONS_DONE, value: 'Lessons Done' },
 ];
 
 export enum SOURCES {
@@ -59,7 +59,7 @@ export enum SOURCES {
 	WORDS = 'words',
 	CODE = 'code',
 	CODE_WORDS = 'code_words',
-	CUSTOM_WORDS = 'custom_words'
+	CUSTOM_WORDS = 'custom_words',
 }
 
 export class SourceOptions {
@@ -74,75 +74,8 @@ export class SourceOptions {
 	phrasesCurrentIndex: number = 0;
 }
 
-export class XgramData {
-	version: number = currentVersion;
-	public source: string = SOURCES.BIGRAMS;
-
-	bigrams: string[] = bigrams;
-	trigrams: string[] = trigrams;
-	tetragrams: string[] = tetragrams;
-	pentagrams: string[] = pentagrams;
-	hexagrams: string[] = hexagrams;
-	pangrams: string[] = pangrams;
-	words: string[] = words;
-	code: Map<string, string[]> = code;
-	code_words?: string[];
-	custom_words?: string[];
-
-	phrases: string[] = [];
-	expectedPhrase: string = '';
-	typedPhrase: string = '';
-	startTime?: Date;
-	hitsCorrect: number = 0;
-	hitsWrong: number = 0;
-	isInputCorrect: boolean = true;
-	rawWPM: number = 0;
-	accuracy: number = 0;
-
-	public sounds: Map<string, boolean> = new Map([
-		[SOUNDS.RIGHT_LETTER, true],
-		[SOUNDS.WRONG_LETTER, true],
-		[SOUNDS.PASSED_GOALS, true],
-		[SOUNDS.FAILED_GOALS, true],
-		[SOUNDS.LESSONS_DONE, true]
-	]);
-
-	public languages: Map<string, boolean> = new Map([
-		[LANGUAGES.CPP, false],
-		[LANGUAGES.CS, false],
-		[LANGUAGES.GO, false],
-		[LANGUAGES.JAVA, false],
-		[LANGUAGES.JAVASCRIPT, false],
-		[LANGUAGES.PYTHON, false],
-		[LANGUAGES.RUST, false],
-		[LANGUAGES.SWIFT, false],
-		[LANGUAGES.TYPESCRIPT, false]
-	]);
-	public sourceOptions: Map<string, SourceOptions> = new Map([
-		[SOURCES.BIGRAMS, new SourceOptions()],
-		[SOURCES.TRIGRAMS, new SourceOptions()],
-		[SOURCES.TETRAGRAMS, new SourceOptions()],
-		[SOURCES.PENTAGRAMS, new SourceOptions()],
-		[SOURCES.HEXAGRAMS, new SourceOptions()],
-		[SOURCES.PANGRAMS, new SourceOptions()],
-		[SOURCES.WORDS, new SourceOptions()],
-		[SOURCES.CODE, new SourceOptions()],
-		[SOURCES.CODE_WORDS, new SourceOptions()],
-		[SOURCES.CUSTOM_WORDS, new SourceOptions()]
-	]);
-}
-
 class MyStore {
 	constructor(
-		public data: Writable<XgramData> = writable<XgramData>(
-			<XgramData>(
-				(browser && sessionStorage.getItem('data')
-					? JSON.parse(sessionStorage.getItem('data') ?? '', (key, value) =>
-							jsonParseReviver(value, (error: Error) => console.error(error))
-					  ) ?? <XgramData>{}
-					: <XgramData>{})
-			)
-		),
 		public options: Writable<SourceOptions> = writable<SourceOptions>(
 			<SourceOptions>(browser && sessionStorage.getItem('options')
 				? JSON.parse(sessionStorage.getItem('options') ?? '', (key, value) => {
@@ -165,9 +98,6 @@ class MyStore {
 		)
 	) {
 		if (browser) {
-			data.subscribe(
-				(value) => (sessionStorage.data = JSON.stringify(value, jsonStringifyReplacer))
-			);
 			options.subscribe((value) => {
 				let x = new SourceOptions();
 				console.log('options x:' + x);
@@ -205,14 +135,6 @@ class MyStore {
 }
 
 if (browser) {
-	// let data = sessionStorage.getItem('data');
-	// console.log(data === 'undefined');
-	// console.log('data:' + data);
-	// let options = sessionStorage.getItem('options');
-	// console.log(options === 'undefined');
-	// console.log('options:' + options);
-	// console.log('words:' + words);
-
 	sessionStorage.clear();
 	console.log('\nCLEARED\n');
 	sessionStorage.truthy = 'true';

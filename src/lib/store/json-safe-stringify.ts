@@ -9,12 +9,12 @@ export function jsonStringifyReplacer(value: any) {
 			console.log('jsonStringifyReplacer map:' + Array.from(value.entries()));
 			return {
 				_meta: { type: 'map' },
-				value: Array.from(value.entries())
+				value: Array.from(value.entries()),
 			};
 		} else if (value instanceof Set) {
 			return {
 				_meta: { type: 'set' },
-				value: Array.from(value.values())
+				value: Array.from(value.values()),
 			};
 		} else if ('_meta' in value) {
 			// escape "_meta" properties
@@ -22,8 +22,8 @@ export function jsonStringifyReplacer(value: any) {
 				...value,
 				_meta: {
 					type: 'escaped-meta',
-					value: value['_meta']
-				}
+					value: value['_meta'],
+				},
 			};
 		}
 	}
@@ -40,12 +40,12 @@ export function jsonParseReviver(value: any, errorCallback: any) {
 			} else if (value._meta.type === 'escaped-meta') {
 				return {
 					...value,
-					_meta: value._meta.value
+					_meta: value._meta.value,
 				};
 			} else {
 				errorCallback?.(
 					new Error('Unexpected meta type: ' + value._meta, {
-						cause: value._meta
+						cause: value._meta,
 					})
 				);
 			}

@@ -1,32 +1,20 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import {
-		Badge,
-		Button,
 		Card,
 		CardBody,
-		CardFooter,
 		CardHeader,
-		CardSubtitle,
-		CardText,
 		CardTitle,
 		Col,
 		Container,
-		Form,
 		FormGroup,
-		FormText,
-		Icon,
 		Input,
 		Label,
-		ListGroup,
-		ListGroupItem,
-		Modal,
 		Row,
 		Styles
 	} from 'sveltestrap';
 
-	import { LANGUAGES, myStore, SOUND_NAMES, SOURCES } from '$lib/store/data';
-	const { data, options, truthy } = myStore;
+	import { myStore, SOUND_NAMES } from '$lib/store/data';
+	const { options, truthy } = myStore;
 </script>
 
 <svelte:head>
